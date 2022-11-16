@@ -1,2 +1,7 @@
 *.class
 *.log
+.env
+/scripts
+/plugins
+/logs
+.idea
