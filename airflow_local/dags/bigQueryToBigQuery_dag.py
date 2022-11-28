@@ -17,7 +17,7 @@ region = Variable.get("region")
 cluster = Variable.get("cluster")
 current_datetime = str(datetime.now().strftime("%Y%m%d_%H%M%S"))
 bigquery_jar = Variable.get("gcs_connector")
-
+print(bigquery_jar)
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,    
@@ -53,7 +53,8 @@ dag = DAG(
 
 PYSPARK_JOB = {"reference": {"project_id": project_id, "job_id": job_name + '_' + current_datetime},
     "placement": {"cluster_name": cluster}, 
-    "pyspark_job": {"main_python_file_uri": pyspark_script_path,"jar_file_uris": [bigquery_jar],"args": application_args,
+    "pyspark_job": {"main_python_file_uri": pyspark_script_path,"jar_file_uris": [bigquery_jar],
+    "args": application_args,
     "properties": spark_properties},
     
 }
