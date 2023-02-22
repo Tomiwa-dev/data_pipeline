@@ -11,21 +11,6 @@ appName = 'bigQueryToBigQuery' + str(ts)
 spark = SparkSession.builder.appName(appName).getOrCreate()
                     
 
-# def createSparkSession():
-#     #get current timestamp
-#     dt = datetime.now()
-
-#     # getting the timestamp
-#     ts = datetime.timestamp(dt)
-#     appName = 'bigQueryToBigQuery' + str(ts)
-#     conf = SparkConf()
-
-#     config = conf.setAppName(appName)
-
-#     spark = SparkSession.builder.config(config).getOrCreate()
-
-    
-
 # table name format project:dataset.tableName
 def readFromBQ(spark, srcTable):
     df = spark.read.format('bigquery').option('table', srcTable).load()
@@ -53,9 +38,6 @@ tempGCSbucket = args.tempGCSbucket
 spark.conf.set("temporaryGcsBucket", tempGCSbucket)
 spark._jsc.hadoopConfiguration().set('fs.gs.impl', 'com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem')
 
-# spark.sparkContext.hadoopConfiguration.set("fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
-# spark.sparkContext.hadoopConfiguration.set("fs.gs.implicit.dir.repair.enable", "false")
-# spark.sparkContext.setLogLevel("WARN")
 print("reading from Big Query")
 srcDf = readFromBQ(spark, srcTable = srcTable)
 
@@ -64,8 +46,4 @@ srcDf.printSchema()
 
 print("writing to Big query")
 destDF = writeToBQ(srcDf, destTable = destTable)
-
-
-
-
 
